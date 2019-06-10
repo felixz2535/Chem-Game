@@ -1,0 +1,206 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+
+<head>
+    <title>p5js Template</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.3/p5.js"></script>
+
+    <script>
+        var words = [
+            "180 degrees",
+            "120 degrees",
+            "<120 degrees",
+            "109.5 degrees",
+            "107.5 degrees",
+            "Complex",
+            "approx. 90 degrees",
+            "90 degrees",
+            "approx. 90 degrees",
+            "90 degrees",
+            "PV=nRT",
+            "Density",
+            "Alkali metals",
+            "Alkaline earth metals",
+            "Transition metals",
+            "mol",
+            "Molarity",
+            "Standard Temperature and Pressure",
+            "22.4L",
+            "Dalton's Law",
+            "melting",
+            "freezing",
+            "vaporization",
+            "condensation",
+            "sublimation",
+            "deposition",
+            "viscosity",
+            "Bronsted-Lowry acid",
+            "Bronsted-Lowry base",
+            "Partial Pressure",
+            "Cation",
+            "Anion",
+            "Synthesis",
+        ];
+
+        var means = [
+            "linear",
+            "trigonal planar",
+            "bent",
+            "tetrahedral",
+            "trigonal pyramidal",
+            "seesaw",
+            "t-shaped",
+            "octahedral",
+            "square pyramidal",
+            "square planar",
+            "Ideal Gas Law",
+            "mass/volume",
+            "Group 1 metals",
+            "Group 2 metals",
+            "Groups 3-12",
+            "6.022x10^23",
+            "mol/L",
+            "0.00°C, 1 atm",
+            "volume of gas @STP",
+            "Ptotal=Pa+Pb+Pc....",
+            "solid to liquid",
+            "liquid to solid",
+            "liquid to gas",
+            "gas to liquid",
+            "solid to gas",
+            "gas to solid",
+            "resistance to flow",
+            "proton donors",
+            "proton acceptors",
+            "Pa = (Ptotal)(Xa)",
+            "positive ion",
+            "negative ion",
+            "2 reactants,1 product",
+        ];
+
+        var score;
+        var position;
+        var num;
+        var mean1;
+        var mean2;
+        var timer;
+        
+        function setMean() {
+            if (num == 1) {
+                mean1 = means[position]
+                mean2 = means[round(random(0, means.length - 1))]
+            }
+            else {
+                mean2 = means[position]
+                mean1 = means[round(random(0, means.length - 1))]
+            }
+        }
+
+        function setup() {
+            createCanvas(400, 400);
+            score = 0;
+            timer = 60;
+
+            boxH = (height / 3) - 2;
+            boxW = ((width - 1) / 2) - 2;
+
+            position = round(random(0, words.length - 1))
+            num = round(random(1, 2))
+
+            setMean();
+        }
+
+        function draw() {
+            background(200, 200, 200);
+            textSize(20);
+            var scores = "Score:" + score;
+
+            if (frameCount % 60 == 0 && timer > 0) {
+                timer--;
+            }
+            text(timer + " sec", 100, 30);
+
+
+            rect(0, 399 - boxH, boxW, boxH)
+            rect(399 - boxW, 399 - boxH, boxW, boxH)
+
+            rect(0, 50, width - 2, (1.5 * height) / 3);
+
+            text(scores, 200, 30)
+            text(words[position], (width - 2) / 2, 100);
+
+            text(mean1, width / 4, 470 - boxH)
+            text(mean2, (3 * width / 4), 470 - boxH)
+            textAlign(CENTER);
+
+
+            if (timer == 0) {
+                background(0);
+                fill(255, 255, 255)
+                text("GAME OVER", width / 2, height/2);
+                text(scores, width / 2, height/2 + 30);
+                noLoop();
+            }
+        }
+
+        function mousePressed() {
+            //left button
+            var button1 = mouseY > 400 - boxH && mouseY < 400 && mouseX < boxW && mouseX > 0;
+            //right button
+            var button2 = mouseY > 400 - boxH && mouseY < 400 && mouseX > boxW && mouseX < 400;
+
+            if (button1) {
+                if (num == 1) {
+                    score++;
+                }
+                else {
+                    score--;
+                }
+            }
+
+            if (button2) {
+                if (num == 2) {
+                    score++;
+                }
+                else {
+                    score--;
+                }
+            }
+
+            if (button1 || button2) {
+                position = round(random(0, words.length - 1))
+                num = round(random(1, 2));
+                
+                setMean();
+
+                if (mean1 == mean2) {
+                    setMean();
+                }
+            }
+        }
+
+    </script>
+    <style>
+        html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  display: flex;
+
+  /* This centers our sketch horizontally. */
+  justify-content: center;
+
+  /* This centers our sketch vertically. */
+  align-items: center;
+}
+    </style>
+</head>
+
+<body>
+
+</body>
+<!--&& mouseY > boxH && mouseY < 400-boxH-->
+
+</html>
